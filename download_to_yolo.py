@@ -24,17 +24,17 @@ def prepare_obj_names(names: List[str]) -> str:
 
 def get_frame_with_annotations(example, label_key: str):
     num_objects = example["instances"][label_key].shape[0]
-    x1y1x2y2 = example["instances"]["bboxes"]
-    x1y1x2y2_frames = example["instances"]["bbox_frames"]
+    y1x1y2x2 = example["instances"]["bboxes"]
+    y1x1y2x2_frames = example["instances"]["bbox_frames"]
     labels = example["instances"][label_key]
     frames = example["video"]
 
     for t, frame in enumerate(frames):
         annotations = []
         for k in range(num_objects):
-            if t in x1y1x2y2_frames[k]:
-                idx = np.nonzero(x1y1x2y2_frames[k] == t)[0][0]
-                x1, y1, x2, y2 = x1y1x2y2[k][idx]
+            if t in y1x1y2x2_frames[k]:
+                idx = np.nonzero(y1x1y2x2_frames[k] == t)[0][0]
+                y1, x1, y2, x2 = y1x1y2x2[k][idx]
                 x = (x1 + x2) / 2
                 y = (y1 + y2) / 2
                 w = x2 - x1
